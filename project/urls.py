@@ -24,6 +24,7 @@ from user.routers.routers import router as user_router
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi 
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 router.registry.extend(task_router.registry)
@@ -42,12 +43,14 @@ schema_view = get_schema_view(
    public=True,
    permission_classes=[permissions.AllowAny],
 )
-
+from task.viewsets.task_viewsets import taskViewsets
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-token-auth/', obtain_auth_token),
     # API Authentication
-    path('api/api-auth/', include('rest_framework.urls')),
+    path('v1/api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
+    path('api/tasks/<int:pk>/', taskViewsets.as_view(), name='task-detail'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')
 ]

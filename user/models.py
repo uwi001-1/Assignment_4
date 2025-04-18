@@ -12,10 +12,14 @@ class CustomUser(AbstractUser):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, unique=True)
 
-    first_name = models.CharField(max_length=250)
+    first_name = models.CharField(max_length=250, unique=True)
     email = models.EmailField(max_length=250, unique=True)
     phone= models.CharField(max_length=15, null=True, default='')
     role = models.CharField(max_length=20, choices=CHOICES)
+    is_verified = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'first_name'
+    REQUIRED_FIELDS = ['username']
 
     created_date = models.DateTimeField(auto_now_add=True)
     updates_date = models.DateTimeField(auto_now=True)

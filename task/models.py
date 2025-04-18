@@ -13,7 +13,7 @@ class Task(models.Model):
     duedate = models.DateField()
     status = models.CharField(max_length=20, choices=TYPE_CHOICE)
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='assigned_to')
+    assigned_to = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='assigned_to')
 
     created_date = models.DateTimeField(auto_now_add=True)
     updates_date = models.DateTimeField(auto_now=True)
